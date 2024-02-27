@@ -1,5 +1,6 @@
 <script>
     import { sf } from "$lib/api"
+    import Header from '../shared/Header.svelte';
     export let data;
     let r = ''
     async function send(){
