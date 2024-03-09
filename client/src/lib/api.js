@@ -1,22 +1,26 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/environment'
 
-export function api(name, func){
-    const result = browser 
-        ? async (...args) => {
-            const response = await fetch('./api', {
-                method: 'post', 
-                body: JSON.stringify({func: name, args: args})
-            })
-            return await response.json()
-        }
-        : func
-    Object.defineProperty(result, 'name', {value: name})
-    return result
+let functions = {}
+
+export function api(name, obj) {
+    for (const fn in obj) {
+        const id = `${name}:${obj}`
+        functions[id] = obj[fn]
+        obj[fn] = browser
+            ? async (...args) => {
+                const response = await fetch('./api', {
+                    method: 'post',
+                    body: JSON.stringify({ fn: id, args: args })
+                })
+                return await response.json()
+            }
+            : obj[fn]
+    }
+    return obj
 }
 
-export const sf = api('sf', (a, b) => {
-    return {
-        first: a,
-        second: b
-    }
-})
+export async function call(body) {
+    const parsed = JSON.parse(body)
+    const result = functions[parsed.fn](...parsed.args)
+    return JSON.stringify(result)
+}

@@ -9,9 +9,13 @@ export default {
             lb: '#023748',
             w: '#fff',
             c5: '#c5c5c5',
+            red: '#64000c',
+            llb: '#657f88'
         },
         fontSize: makeFonts(),
         borderRadius: makeFonts(),
+        lineHeight: makeFonts(),
+        letterSpacing: makeFonts(),
         extend: {
             spacing: makeSpacing()
         },
@@ -30,7 +34,7 @@ function makeSpacing() {
 
 function makeFonts() {
     let fonts = {}
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i <= 50; i++) {
         fonts[i] = i / 4 + "rem"
     }
     return fonts
