@@ -1,8 +1,8 @@
 import { sql } from '$lib'
 
 export async function load() {
-    const x = await sql`select * from product`
+    //const x = await sql`select * from product`
     return {
-        recs: x
+        recs: 1
     }
 }

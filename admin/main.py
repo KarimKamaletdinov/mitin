@@ -26,7 +26,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     file = await update.message.document.get_file()
     bt = await file.download_to_drive()
     img = Image.open(bt)
-    resize(id, img, (224, 229), ftp)
+    resize(id, img, (224, 229), ftp) # for compatibility only. TODO remove
+    resize(id, img, (242, 229), ftp)
     resize(id, img, (175, 160), ftp)
     resize(id, img, (600, 424), ftp)
     ftp.quit()

@@ -1,6 +1,7 @@
 <script>
     import "../app.css";
-    import Header from '../shared/Header.svelte';
+    import MainHeader from "../shared/header/MainHeader.svelte";
 </script>
-<Header/>
+
+<MainHeader />
 <slot />

@@ -1,4 +1,6 @@
 <script>
+    import { sf } from "$lib/api";
+    import Product from "../shared/product/Product.svelte";
     export let data;
     let r = "";
     async function send() {
@@ -10,8 +12,5 @@
     {rec.name}<br />
 {/each}
 {r}
-<h1>Welcome to SvelteKit</h1>
-<button on:click={send}>
-    Visit kit.svelte.dev to read the documentation
-</button>
-<div class="bg-red-600 w-100">aa</div>
+
+<Product />

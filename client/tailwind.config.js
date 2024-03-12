@@ -7,18 +7,25 @@ export default {
             d: '576px',
         },
         colors: {
+            b: '#02242f',
             lb: '#023748',
             w: '#fff',
             c5: '#c5c5c5',
-            red: '#64000c',
-            llb: '#657f88'
+            eb: '#ebebeb',
+            llb: "#657f88",
+            red: "#64000c",
         },
         fontSize: makeFonts(),
-        borderRadius: makeFonts(),
         lineHeight: makeFonts(),
         letterSpacing: makeFonts(),
+        borderRadius: makeFonts(),
+        variants: {
+            extend: {
+                borderWidth: ['focus'],
+            }
+        },
         extend: {
-            spacing: makeSpacing()
+            spacing: makeSpacing(),
         },
     },
 

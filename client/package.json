@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "env-cmd vite dev",
+    "dev": "env-cmd vite dev --host 127.0.0.1 --port 8080",
     "build": "vite build",
     "preview": "vite preview"
   },
