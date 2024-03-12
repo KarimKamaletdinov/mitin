@@ -2,7 +2,7 @@ import { sql } from '..'
 import { api } from '../api'
 import bot from './bot'
 
-export default customer = api('customer', {
+export default api('customer', {
     create: async (phone, name) => {
         await sql`insert into customer values (${phone}, 'ФЛ', ${name}, false)`
     },

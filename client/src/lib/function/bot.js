@@ -1,6 +1,6 @@
 import { api } from '../api'
 
-export default bot = api('bot', {
+export default api('bot', {
     async text(text) {
         await fetch(`https://api.telegram.org/${process.env.BOT_TOKEN}/sendMessage`, {
             body: JSON.stringify({

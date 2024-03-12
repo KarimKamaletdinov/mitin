@@ -1,13 +1,15 @@
 <script>
     import Button from "../../../shared/forms/Button.svelte";
     import Input from "../../../shared/forms/Input.svelte";
+    import customer from "$lib/function/customer";
     let phone;
     let state;
     let inn;
     let document;
 
-    function save() {
+    async function save() {
         if (phone && state && (state === "ФЛ" || inn & document)) {
+            await customer.update(phone, state, "a", inn, document);
         }
     }
 </script>
