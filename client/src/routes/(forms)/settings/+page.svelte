@@ -9,7 +9,9 @@
     let document;
 
     async function save() {
-        if (phone && state && (state === "ФЛ" || inn & document)) {
+        console.log("A");
+        if (phone && state && (state === "ФЛ" || (inn && document))) {
+            console.log("B");
             await customer.update(phone, state, "a", inn, document);
         }
     }
