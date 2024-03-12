@@ -5,6 +5,11 @@
     let state;
     let inn;
     let document;
+
+    function save() {
+        if (phone && state && (state === "ФЛ" || inn & document)) {
+        }
+    }
 </script>
 
 <Input
@@ -44,4 +49,4 @@
     />
 {/if}
 
-<Button>СОХРАНИТЬ</Button>
+<Button on:click={save}>СОХРАНИТЬ</Button>

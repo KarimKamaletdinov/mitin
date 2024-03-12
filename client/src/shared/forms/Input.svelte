@@ -10,9 +10,6 @@
     export let values = [];
     export let innSize = 10;
     let infoVisible = false;
-    if (name == "phone") {
-        placeholder = "+7(000)000-00-00";
-    }
 </script>
 
 <div class="mt-12 mb-30 mx-20">
@@ -39,11 +36,9 @@
             {name}
             type="tel"
             value="+7"
-            {placeholder}
             use:imask={{
                 mask: "{+7}(000)000-00-00",
                 lazy: false,
-                placeholderChar: " ",
             }}
             on:complete={(e) => {
                 value = e.detail.unmaskedValue;
@@ -82,11 +77,9 @@
             {name}
             type="text"
             value=""
-            {placeholder}
             use:imask={{
                 mask: "0".repeat(innSize),
                 lazy: false,
-                placeholderChar: "_",
             }}
             on:complete={(e) => {
                 value = e.detail.unmaskedValue;
