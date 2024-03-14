@@ -11,11 +11,9 @@
     async function save() {
         console.log("A");
         if (phone && state && (state === "ФЛ" || (inn && document))) {
-            console.log("B");
-            await customer.update(phone, state, "a", inn, document);
+            await customer.update("phone", "state", "a", inn, document);
         }
     }
-
     page.title = "Настройки";
 </script>
 

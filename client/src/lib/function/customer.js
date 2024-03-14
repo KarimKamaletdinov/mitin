@@ -15,7 +15,7 @@ export default api('customer', {
             console.log('AAA')
             await bot.document(document, inn)
         }
-        await sql`update customer set state = ${state}, name = ${name} where phone = ${phone}`
+        //await sql`update customer set state = ${state}, name = ${name} where phone = ${phone}`
     },
     confirm: async (phone) => {
         await sql`update customer set confirmed = true where phone = ${phone}`

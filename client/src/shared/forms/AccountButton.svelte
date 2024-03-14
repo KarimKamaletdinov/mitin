@@ -1,9 +1,11 @@
 <script>
+    import Dialog from "../Dialog.svelte";
+
     export let badge = undefined;
     export let href;
 </script>
 
-<a {href}>
+<Dialog {href}>
     <div
         class="mx-20 mt-30 mb-40 pl-55 rounded-5 border-2
         border-lb block h-50 font-bold text-28 leading-50 relative"
@@ -18,4 +20,7 @@
         {/if}
         <slot />
     </div>
-</a>
+    <svelte:fragment slot="dialog">
+        <slot name="dialog" />
+    </svelte:fragment>
+</Dialog>
