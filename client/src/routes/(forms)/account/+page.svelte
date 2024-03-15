@@ -1,6 +1,8 @@
 <script>
     import AccountButton from "../../../shared/forms/AccountButton.svelte";
     import Settings from "../settings/+page.svelte";
+    import { getContext } from "svelte";
+    getContext("title")?.set("Аккаунт");
 </script>
 
 <AccountButton badge="3">ТЕКУЩИЕ ЗАКАЗЫ</AccountButton>

@@ -2,7 +2,8 @@
     import Button from "../../../shared/forms/Button.svelte";
     import Input from "../../../shared/forms/Input.svelte";
     import customer from "$lib/function/customer";
-    import { page } from "$app/stores";
+    import { getContext } from "svelte";
+    getContext("title")?.set("Настройки");
     let phone;
     let state;
     let inn;
@@ -14,7 +15,6 @@
             await customer.update("phone", "state", "a", inn, document);
         }
     }
-    page.title = "Настройки";
 </script>
 
 <Input

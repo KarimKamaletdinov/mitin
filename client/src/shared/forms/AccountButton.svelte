@@ -8,7 +8,7 @@
 <Dialog {href}>
     <div
         class="mx-20 mt-30 mb-40 pl-55 rounded-5 border-2
-        border-lb block h-50 font-bold text-28 leading-50 relative"
+        border-lb block h-50 font-bold text-28 leading-50 relative text-b"
     >
         {#if badge}
             <div

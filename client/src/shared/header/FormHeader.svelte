@@ -1,9 +1,7 @@
 <script>
     import DesktopHeader from "./DesktopHeader.svelte";
-    import { page } from "$app/stores";
-    console.log(page);
-    let title = page.title;
-    console.log(title);
+
+    export let title;
 </script>
 
 <DesktopHeader />
