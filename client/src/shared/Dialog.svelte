@@ -13,7 +13,7 @@
         visible = false;
     }
     export let href;
-    let className;
+    let className = "";
     export { className as class };
 </script>
 

@@ -1,9 +1,7 @@
 <script>
+    import { getContext } from "svelte";
     import FormHeader from "../../shared/header/FormHeader.svelte";
-    import { setContext } from "svelte";
-    import { writable } from "svelte/store";
-    const titleStore = writable("");
-    setContext("title", titleStore);
+    const titleStore = getContext("title");
     let title = "";
     titleStore.subscribe((x) => (title = x));
 </script>
