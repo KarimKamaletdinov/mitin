@@ -1,6 +1,5 @@
 <script>
-    import Dialog from "../Dialog.svelte";
-    import Account from "../../routes/(forms)/account/+page.svelte";
+    import DialogViewer from "../DialogViewer.svelte";
 </script>
 
 <header class="hidden d:flex h-80 bg-lb justify-center">
@@ -16,8 +15,7 @@
     <a href="/basket" class="ml-20 mr-50 my-auto">
         <img class="w-32" src="/basket.svg" alt="Корзина" />
     </a>
-    <Dialog href="/account" class="my-auto">
+    <DialogViewer href="/account" class="my-auto">
         <img class="w-32" src="/account.svg" alt="Аккаунт" />
-        <Account slot="dialog" />
-    </Dialog>
+    </DialogViewer>
 </header>

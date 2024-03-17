@@ -19,7 +19,7 @@
     kit.calc("02", "Уфа");
 </script>
 
-<div class="mx-20">
+<div class="mx-20 grid grid-cols-1 gap-30 pt-30">
     <Input
         name="phone"
         title="Телефон"

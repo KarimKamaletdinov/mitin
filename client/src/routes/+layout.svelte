@@ -4,6 +4,7 @@
     import { setContext } from "svelte";
     import { writable } from "svelte/store";
     import { browser } from "$app/environment";
+    import Dialog from "../shared/Dialog.svelte";
     const titleStore = writable("");
     setContext("title", titleStore);
     titleStore.subscribe((x) => {
@@ -18,9 +19,19 @@
     infoStore.subscribe((x) => {
         info = x;
     });
+
+    const dialogStore = writable(undefined);
+    setContext("dialog", dialogStore);
+    let dialog = "";
+    dialogStore.subscribe((x) => {
+        console.log("AAA", x);
+        dialog = x;
+    });
 </script>
 
 <slot />
+<Dialog href={dialog} />
+
 <Info
     visible={info != undefined}
     text={info?.text}

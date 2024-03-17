@@ -49,5 +49,5 @@ export async function call(url, body) {
     if (result instanceof Promise) {
         result = await result
     }
-    return JSON.stringify(result)
+    return result
 }

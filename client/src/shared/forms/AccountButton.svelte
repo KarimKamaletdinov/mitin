@@ -1,11 +1,11 @@
 <script>
-    import Dialog from "../Dialog.svelte";
+    import DialogViewer from "../DialogViewer.svelte";
 
     export let badge = undefined;
     export let href;
 </script>
 
-<Dialog {href}>
+<DialogViewer {href}>
     <div
         class="mx-20 mt-30 mb-40 pl-55 rounded-5 border-2
         border-lb block h-50 font-bold text-28 leading-50 relative text-b"
@@ -23,4 +23,4 @@
     <svelte:fragment slot="dialog">
         <slot name="dialog" />
     </svelte:fragment>
-</Dialog>
+</DialogViewer>

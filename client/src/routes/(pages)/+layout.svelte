@@ -1,6 +1,5 @@
 <script>
-    import "../app.css";
-    import MainHeader from "../shared/header/MainHeader.svelte";
+    import MainHeader from "../../shared/header/MainHeader.svelte";
 </script>
 
 <MainHeader />
