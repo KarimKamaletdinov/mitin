@@ -4,6 +4,7 @@
     import regions from "$lib/function/regions";
     import kit from "$lib/function/kit";
     import Select from "svelte-select";
+    import Page from "../../routes/(forms)/order/+page.svelte";
 
     export let name;
     export let title;
@@ -12,8 +13,9 @@
     export let value = "";
     export let values = [];
     export let innSize = 10;
-    export let horizontal;
-    export let kind = "address";
+    export let horizontal = false;
+    export let city = undefined;
+    let calc = {};
     let infoStore = getContext("info");
 
     function showInfo() {
@@ -30,7 +32,7 @@
 
     async function loadOptions(search) {
         console.log(search);
-        if (!search || search.length < 2) {
+        if (!search || search.length < 2 || !values) {
             return [];
         }
         const cities = await kit.cities(values, search);
@@ -40,6 +42,40 @@
             label: x.name,
         }));
     }
+    $: if (name == "address" && city) {
+        kit.addresses(city).then((x) => {
+            values = x.map((y) => ({
+                value: y.id,
+                label: y.value,
+            }));
+        });
+        calc.address = undefined;
+        calc.point = undefined;
+        kit.calc(city, true).then((x) => {
+            calc.address = x;
+        });
+        kit.calc(city, false).then((x) => {
+            calc.point = x;
+        });
+    }
+
+    if (name == "address") {
+        value = {
+            kind: "address",
+            address: undefined,
+            point: undefined,
+        };
+    }
+
+    $: if (name == "address") {
+        if (value.kind == "address") {
+            value.point = undefined;
+        } else if (!value.point && values && values.length > 0) {
+            value.point = values[0].value;
+        }
+    }
+
+    $: console.log(value);
 </script>
 
 <div
@@ -152,7 +188,7 @@
                 value: x,
                 label: regions[x],
             }))}
-            placeholder="Москва"
+            placeholder="Выберите регион"
             class="h-50 w-full !border-lb !border-2 rounded-5
             text-26 font-bold px-11 placeholder:text-llb text-lb  [grid-area:input]"
             inputStyles="font-size: 6.5rem"
@@ -163,7 +199,7 @@
             {loadOptions}
             {name}
             bind:value
-            placeholder="Москва"
+            placeholder="Выберите город"
             class="h-50 w-full !border-lb !border-2 rounded-5
             text-26 font-bold px-11 placeholder:text-llb text-lb  [grid-area:input]"
             inputStyles="font-size: 6.5rem"
@@ -178,7 +214,7 @@
                     name="address-kind"
                     value="address"
                     class="hidden peer"
-                    bind:group={kind}
+                    bind:group={value.kind}
                 />
                 <div
                     class="h-50 text-28 font-bold text-center leading-50 peer-checked:text-w"
@@ -189,13 +225,14 @@
                     id={name}
                     {name}
                     type="text"
-                    bind:value
+                    bind:value={value.address}
                     {placeholder}
                     class="h-50 w-full border-y-lb border-y-2 rounded-5
             text-26 font-bold px-11 placeholder:text-llb text-lb"
                     style="grid-area: input;"
                     on:click={() => {
-                        kind = "address";
+                        value.kind = "address";
+                        value.point = undefined;
                     }}
                 />
                 <div
@@ -206,64 +243,83 @@
                 <div
                     class="text-18 font-bold text-center peer-checked:text-w mb-12"
                 >
-                    5 дней 1500 ₽
+                    {calc.address?.time ?? "..."} дней {calc.address?.cost ??
+                        "..."} ₽
                 </div>
             </label>
-            <label class="block border-2 border-lb rounded-5 mb-10">
-                <div
-                    class="h-50 text-28 font-bold text-center leading-50 has-[:checked]:bg-lb has-[:checked]:text-w"
-                >
-                    ДО ПУНКТА ВЫДАЧИ
-                    <input
-                        type="radio"
-                        name="address-kind"
-                        value="point"
-                        class="hidden peer"
-                        bind:group={kind}
-                    />
-                </div>
-                <div class="border-t-2 border-t-lb bg-w">
-                    <div class="h-60 flex justify-between px-18">
-                        <span class="text-28 font-bold text-center leading-60">
-                            КИТ
-                        </span>
-                        <span
-                            class="text-20 font-bold text-center mb-12 leading-60"
-                        >
-                            5 дней 1500 ₽
-                        </span>
+            {#if values && values.length > 0}
+                <label class="block border-2 border-lb rounded-5 mb-10">
+                    <div
+                        class="h-50 text-28 font-bold text-center leading-50 has-[:checked]:bg-lb has-[:checked]:text-w"
+                    >
+                        ДО ПУНКТА ВЫДАЧИ
+                        <input
+                            type="radio"
+                            name="address-kind"
+                            value="point"
+                            class="hidden peer"
+                            bind:group={value.kind}
+                        />
                     </div>
-                    <ul>
-                        {#each ["ул. Мира д. 6", "пл. Ленина д. 7", "ул. Александра Невского д. 89"] as point}
-                            <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-                            <li
-                                class="block"
-                                on:click={() => {
-                                    kind = "point";
-                                }}
+                    <div class="border-t-2 border-t-lb bg-w">
+                        <div class="h-60 flex justify-between px-18">
+                            <span
+                                class="text-28 font-bold text-center leading-60"
                             >
-                                <input
-                                    type="radio"
-                                    id={`${name}-${point}`}
-                                    {name}
-                                    value={point}
-                                    bind:group={value}
-                                    class="hidden peer text-26 font-bold text-lb"
-                                />
-                                <label
-                                    class="inline-block peer-checked:bg-lb peer-checked:text-w min-h-48 py-10 px-15 w-full
-                                text-lb font-bold text-22"
-                                    for={`${name}-${point}`}
+                                КИТ
+                            </span>
+                            <span
+                                class="text-20 font-bold text-center mb-12 leading-60"
+                            >
+                                {calc.point?.time ?? "..."} дней {calc.point
+                                    ?.cost ?? "..."} ₽
+                            </span>
+                        </div>
+                        <ul>
+                            {#each values as point}
+                                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                                <li
+                                    class="block"
+                                    on:click={() => {
+                                        if (value.kind != "point") {
+                                            value.kind = "point";
+                                        }
+                                    }}
                                 >
-                                    {point}
-                                </label>
-                            </li>
-                        {/each}
-                    </ul>
-                </div>
-            </label>
+                                    <input
+                                        type="radio"
+                                        id={`${name}-${point.value}`}
+                                        {name}
+                                        value={point.value}
+                                        bind:group={value.point}
+                                        class="hidden peer text-26 font-bold text-lb"
+                                    />
+                                    <label
+                                        class="inline-block peer-checked:bg-lb peer-checked:text-w min-h-48 py-10 px-15 w-full
+                                text-lb font-bold text-22"
+                                        for={`${name}-${point.value}`}
+                                    >
+                                        {point.label}
+                                    </label>
+                                </li>
+                            {/each}
+                        </ul>
+                    </div>
+                </label>
+            {/if}
         </div>
+    {:else if name == "comment"}
+        <textarea
+            id={name}
+            {name}
+            type="text"
+            bind:value
+            placeholder="Пример: Позвонить за 3 часа до приезда курьера"
+            class="min-h-80 w-full border-lb border-2 rounded-5
+            text-26 font-bold px-11 placeholder:text-llb text-lb py-9"
+            style="grid-area: input"
+        ></textarea>
     {:else}
         <input
             id={name}
@@ -272,7 +328,7 @@
             bind:value
             {placeholder}
             class="h-50 w-full border-lb border-2 rounded-5
-            text-26 font-bold px-11 placeholder:text-llb text-lb"
+            text-24 font-bold px-11 placeholder:text-llb text-lb"
             style="grid-area: input"
         />
     {/if}

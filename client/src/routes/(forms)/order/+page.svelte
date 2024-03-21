@@ -1,11 +1,11 @@
 <script>
     import Input from "../../../shared/forms/Input.svelte";
-    import customer from "$lib/function/customer";
     import { getContext } from "svelte";
-    import kit from "$lib/function/kit";
     getContext("title")?.set("Оформление заказа");
-    let region = { value: "02", label: "Республика Башкортостан" };
+    let region;
     let city;
+    let comment;
+    $: console.log(city);
 </script>
 
 <main class="bg-eb">
@@ -20,15 +20,12 @@
             <Input
                 name="city"
                 title="Город/населённый пункт"
-                values={region.value}
+                values={region?.value}
+                bind:value={city}
                 horizontal
             />
-            <Input
-                name="address"
-                title="Город/населённый пункт"
-                values={region.value}
-                horizontal
-            />
+            <Input name="address" title="Адрес доставки" {city} horizontal />
+            <Input name="comment" title="Комментарий" {comment} horizontal />
         </div>
     </div>
 </main>
