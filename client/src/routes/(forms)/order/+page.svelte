@@ -23,6 +23,12 @@
                 values={region.value}
                 horizontal
             />
+            <Input
+                name="address"
+                title="Город/населённый пункт"
+                values={region.value}
+                horizontal
+            />
         </div>
     </div>
 </main>

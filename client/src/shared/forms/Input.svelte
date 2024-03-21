@@ -13,6 +13,7 @@
     export let values = [];
     export let innSize = 10;
     export let horizontal;
+    export let kind = "address";
     let infoStore = getContext("info");
 
     function showInfo() {
@@ -167,6 +168,102 @@
             text-26 font-bold px-11 placeholder:text-llb text-lb  [grid-area:input]"
             inputStyles="font-size: 6.5rem"
         />
+    {:else if name == "address"}
+        <div class="[grid-area:input]">
+            <label
+                class="block border-2 border-lb has-[:checked]:bg-lb has-[:checked]:text-w rounded-5 mb-10"
+            >
+                <input
+                    type="radio"
+                    name="address-kind"
+                    value="address"
+                    class="hidden peer"
+                    bind:group={kind}
+                />
+                <div
+                    class="h-50 text-28 font-bold text-center leading-50 peer-checked:text-w"
+                >
+                    ДО АДРЕСА
+                </div>
+                <input
+                    id={name}
+                    {name}
+                    type="text"
+                    bind:value
+                    {placeholder}
+                    class="h-50 w-full border-y-lb border-y-2 rounded-5
+            text-26 font-bold px-11 placeholder:text-llb text-lb"
+                    style="grid-area: input;"
+                    on:click={() => {
+                        kind = "address";
+                    }}
+                />
+                <div
+                    class="text-28 font-bold text-center peer-checked:text-w mt-5 mb-3"
+                >
+                    КИТ
+                </div>
+                <div
+                    class="text-18 font-bold text-center peer-checked:text-w mb-12"
+                >
+                    5 дней 1500 ₽
+                </div>
+            </label>
+            <label class="block border-2 border-lb rounded-5 mb-10">
+                <div
+                    class="h-50 text-28 font-bold text-center leading-50 has-[:checked]:bg-lb has-[:checked]:text-w"
+                >
+                    ДО ПУНКТА ВЫДАЧИ
+                    <input
+                        type="radio"
+                        name="address-kind"
+                        value="point"
+                        class="hidden peer"
+                        bind:group={kind}
+                    />
+                </div>
+                <div class="border-t-2 border-t-lb bg-w">
+                    <div class="h-60 flex justify-between px-18">
+                        <span class="text-28 font-bold text-center leading-60">
+                            КИТ
+                        </span>
+                        <span
+                            class="text-20 font-bold text-center mb-12 leading-60"
+                        >
+                            5 дней 1500 ₽
+                        </span>
+                    </div>
+                    <ul>
+                        {#each ["ул. Мира д. 6", "пл. Ленина д. 7", "ул. Александра Невского д. 89"] as point}
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                            <li
+                                class="block"
+                                on:click={() => {
+                                    kind = "point";
+                                }}
+                            >
+                                <input
+                                    type="radio"
+                                    id={`${name}-${point}`}
+                                    {name}
+                                    value={point}
+                                    bind:group={value}
+                                    class="hidden peer text-26 font-bold text-lb"
+                                />
+                                <label
+                                    class="inline-block peer-checked:bg-lb peer-checked:text-w min-h-48 py-10 px-15 w-full
+                                text-lb font-bold text-22"
+                                    for={`${name}-${point}`}
+                                >
+                                    {point}
+                                </label>
+                            </li>
+                        {/each}
+                    </ul>
+                </div>
+            </label>
+        </div>
     {:else}
         <input
             id={name}
