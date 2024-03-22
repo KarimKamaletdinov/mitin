@@ -42,22 +42,27 @@
             label: x.name,
         }));
     }
-    $: if (name == "address" && city) {
-        kit.addresses(city).then((x) => {
-            values = x.map((y) => ({
-                value: y.id,
-                label: y.value,
-            }));
-        });
+
+    function recalc(city) {
         calc.address = undefined;
         calc.point = undefined;
-        kit.calc(city, true).then((x) => {
-            calc.address = x;
-        });
-        kit.calc(city, false).then((x) => {
-            calc.point = x;
-        });
+        if (name == "address" && city) {
+            kit.addresses(city).then((x) => {
+                values = x.map((y) => ({
+                    value: y.id,
+                    label: y.value,
+                }));
+            });
+            kit.calc(city, true).then((x) => {
+                calc.address = x;
+            });
+            kit.calc(city, false).then((x) => {
+                calc.point = x;
+            });
+        }
     }
+
+    $: recalc(city);
 
     if (name == "address") {
         value = {
