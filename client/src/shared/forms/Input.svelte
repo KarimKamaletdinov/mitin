@@ -45,7 +45,7 @@
 
     function recalc(city) {
         calc.address = undefined;
-        calc.point = undefined;
+        calc.point = undefined;aa
         if (name == "address" && city) {
             kit.addresses(city).then((x) => {
                 values = x.map((y) => ({
