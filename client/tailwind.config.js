@@ -24,6 +24,9 @@ export default {
                 borderWidth: ['focus'],
             }
         },
+        boxShadow: {
+            n: "2px 4px 4px #00000044"
+        },
         extend: {
             spacing: makeSpacing(),
         },
