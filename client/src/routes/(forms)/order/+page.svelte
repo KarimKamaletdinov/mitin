@@ -1,5 +1,7 @@
 <script>
     import Input from "../../../shared/forms/Input.svelte";
+    import Button from "../../../shared/forms/Button.svelte";
+    import contract from "$lib/function/contract.js";
     import { getContext } from "svelte";
     getContext("title")?.set("Оформление заказа");
     let region;
@@ -55,6 +57,20 @@
                 bind:value={patronymic}
                 horizontal
             />
+            <Button
+                on:click={() =>
+                    contract.create(
+                        region,
+                        city,
+                        "Д",
+                        "",
+                        comment,
+                        phone,
+                        surname,
+                        name,
+                        patronymic,
+                    )}
+            ></Button>
         </div>
     </div>
 </main>

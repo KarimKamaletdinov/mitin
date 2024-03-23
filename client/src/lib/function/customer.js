@@ -3,8 +3,9 @@ import { api } from '../api'
 import bot from './bot'
 
 export default api('customer', {
-    create: async (phone, name) => {
-        await sql`insert into customer values (${phone}, 'ФЛ', ${name}, false)`
+    async create(phone, name) {
+        let result = await sql`insert into customer values (${phone}, 'ФЛ', ${name}, false)`
+        return result
     },
     find: async (phone) => {
         await sql`select * from customer where phone = ${phone}`
