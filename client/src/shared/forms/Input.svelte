@@ -4,7 +4,7 @@
     import regions from "$lib/function/regions";
     import kit from "$lib/function/kit";
     import Select from "svelte-select";
-    import Page from "../../routes/(forms)/order/+page.svelte";
+    import Page from "../../routes/(forms)/contract/+page.svelte";
 
     export let name;
     export let title;
@@ -14,9 +14,11 @@
     export let values = [];
     export let innSize = 10;
     export let horizontal = false;
+    export let inverted = false;
     export let city = undefined;
     let calc = {};
     let infoStore = getContext("info");
+    let visible = true;
 
     function showInfo() {
         const rect = this.getBoundingClientRect();
@@ -86,26 +88,28 @@
 <div
     class="grid"
     style={horizontal
-        ? "grid-template: 'input label' auto / 50% 50%; gap: 17rem"
+        ? `grid-template: ${inverted ? "'label input'" : "'input label'"} auto / ${inverted ? "auto 89.5rem" : "89.5rem auto"}; gap: 17rem`
         : "grid-template: 'label' auto 'input' auto; gap: 3rem;"}
 >
-    <label
-        for={name}
-        class="h-40 relative leading-40 font-bold text-22 text-lb w-full block"
-        style="grid-area: label; {horizontal &&
-            'height: 12.5rem; line-height: 12.5rem'}"
-    >
-        {title}
-        {#if info}
-            <button
-                class="absolute size-40 rounded-20 border-2 border-red text-32 font-bold
-            right-0 top-0 bg-w text-center text-red leading-40"
-                on:click={showInfo}
-            >
-                ?
-            </button>
-        {/if}
-    </label>
+    {#if name != "category"}
+        <label
+            for={name}
+            class="h-40 relative leading-40 font-bold text-22 text-lb w-full block"
+            style="grid-area: label; {horizontal &&
+                'height: 12.5rem; line-height: 12.5rem'}"
+        >
+            {title}
+            {#if info}
+                <button
+                    class="absolute size-40 rounded-20 border-2 border-red text-32 font-bold
+        right-0 top-0 bg-w text-center text-red leading-40"
+                    on:click={showInfo}
+                >
+                    ?
+                </button>
+            {/if}
+        </label>
+    {/if}
     {#if name == "phone"}
         <input
             id={name}
@@ -322,9 +326,52 @@
             bind:value
             placeholder="Пример: Позвонить за 3 часа до приезда курьера"
             class="min-h-80 w-full border-lb border-2 rounded-5
-            text-26 font-bold px-11 placeholder:text-llb text-lb py-9"
+            text-26 font-bold px-11 placeholder:text-llb placeholder:text-24 text-lb py-9"
             style="grid-area: input"
         ></textarea>
+    {:else if name == "category"}
+        <label
+            class="h-40 relative leading-40 font-bold text-22 text-lb w-full block"
+            style="grid-area: label; {horizontal &&
+                'height: 12.5rem; line-height: 12.5rem'}"
+        >
+            {title}
+            {#if info}
+                <button
+                    class="absolute size-40 rounded-20 border-2 border-red text-32 font-bold
+        right-0 top-0 bg-w text-center text-red leading-40"
+                    on:click={showInfo}
+                >
+                    ?
+                </button>
+            {/if}
+        </label>
+        {#if visible}
+            <ul class="grid grid-flow-row gap-10">
+                {#each values as item}
+                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                    <li class="flex">
+                        <label
+                            class="leading-40 w-full
+    text-lb font-bold text-22"
+                            for={`${name}-${item}`}
+                        >
+                            {item}
+                        </label>
+                        <input
+                            type="checkbox"
+                            id={`${name}-${item}`}
+                            {name}
+                            value={item}
+                            bind:group={value}
+                            class="appearance-none h-40 w-40 rounded-10 border-3 border-lb
+                        checked:bg-[url('/check.svg')] bg-center bg-no-repeat"
+                        />
+                    </li>
+                {/each}
+            </ul>
+        {/if}
     {:else}
         <input
             id={name}

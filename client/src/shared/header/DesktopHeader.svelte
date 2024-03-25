@@ -2,7 +2,7 @@
     import DialogViewer from "../DialogViewer.svelte";
 </script>
 
-<header class="hidden d:flex h-80 bg-lb justify-center">
+<header class="hidden d:flex h-80 bg-lb justify-center sticky top-0 z-50">
     <div class="text-center my-auto">
         <div class="text-40 font-bold mb-[-1rem] text-w">MItIn</div>
         <div class="text-20 font-bold text-w">FISHING</div>

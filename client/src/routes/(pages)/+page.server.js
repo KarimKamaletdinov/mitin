@@ -1,8 +1,14 @@
 import { sql } from '$lib'
+import filter from '$lib/function/filter'
 
 export async function load() {
-    //const x = await sql`select * from product`
+    const f = await filter.empty()
+    f.category = ['КФ', 'ПЗ']
+    f.available = true
+    f.price.from = 100
+    const x = await filter.query(f)
+    //console.log(x)
     return {
-        recs: 1
+        recs: x
     }
 }

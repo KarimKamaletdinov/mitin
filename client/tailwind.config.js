@@ -29,6 +29,7 @@ export default {
         },
         extend: {
             spacing: makeSpacing(),
+            borderWidth: makeFonts(3),
         },
     },
 

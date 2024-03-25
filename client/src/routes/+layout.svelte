@@ -1,4 +1,5 @@
 <script>
+    import DesktopHeader from "../shared/header/DesktopHeader.svelte";
     import "../app.css";
     import Info from "../shared/Info.svelte";
     import { setContext } from "svelte";
@@ -28,6 +29,8 @@
         dialog = x;
     });
 </script>
+
+<DesktopHeader />
 
 <slot />
 <Dialog href={dialog} />

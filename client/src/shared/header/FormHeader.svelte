@@ -1,6 +1,4 @@
 <script>
-    import DesktopHeader from "./DesktopHeader.svelte";
-
     export let title;
 
     function back() {
@@ -8,7 +6,6 @@
     }
 </script>
 
-<DesktopHeader />
 <header
     class="d:hidden h-65 leading-65 text-28 text-lb font-bold border-b-2 border-b-lb"
 >
