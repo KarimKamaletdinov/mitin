@@ -2,5 +2,5 @@
     import MainHeader from "../../shared/header/MainHeader.svelte";
 </script>
 
-<MainHeader />
 <slot />
+<div class="h-100"></div>

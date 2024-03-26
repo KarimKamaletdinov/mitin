@@ -4,7 +4,8 @@
     import regions from "$lib/function/regions";
     import kit from "$lib/function/kit";
     import Select from "svelte-select";
-    import Page from "../../routes/(forms)/contract/+page.svelte";
+    import { slide } from "svelte/transition";
+    import { categoryFull } from "$lib/function/abbreviation";
 
     export let name;
     export let title;
@@ -82,6 +83,17 @@
         }
     }
 
+    if (name == "order") {
+        values = {
+            popular: "Сначала популярные",
+            cheap: "Сначала дешёвые",
+            expensive: "Сначала дорогие",
+            off: "Сначала со скидкой",
+        };
+        value = "popular";
+        visible = false;
+    }
+
     $: console.log(value);
 </script>
 
@@ -89,9 +101,9 @@
     class="grid"
     style={horizontal
         ? `grid-template: ${inverted ? "'label input'" : "'input label'"} auto / ${inverted ? "auto 89.5rem" : "89.5rem auto"}; gap: 17rem`
-        : "grid-template: 'label' auto 'input' auto; gap: 3rem;"}
+        : `grid-template: 'label' auto 'input' auto; gap: ${name == "order" ? 0 : 3}rem;`}
 >
-    {#if name != "category"}
+    {#if name != "category" && name != "brand" && name != "price" && name != "order"}
         <label
             for={name}
             class="h-40 relative leading-40 font-bold text-22 text-lb w-full block"
@@ -329,35 +341,54 @@
             text-26 font-bold px-11 placeholder:text-llb placeholder:text-24 text-lb py-9"
             style="grid-area: input"
         ></textarea>
-    {:else if name == "category"}
-        <label
-            class="h-40 relative leading-40 font-bold text-22 text-lb w-full block"
-            style="grid-area: label; {horizontal &&
-                'height: 12.5rem; line-height: 12.5rem'}"
+    {:else if name == "category" || name == "brand"}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+            class="h-40 relative leading-40 font-bold text-32 text-lb w-full flex justify-between mt-10"
+            on:click={(e) => {
+                visible = !visible;
+            }}
         >
-            {title}
-            {#if info}
-                <button
-                    class="absolute size-40 rounded-20 border-2 border-red text-32 font-bold
-        right-0 top-0 bg-w text-center text-red leading-40"
-                    on:click={showInfo}
-                >
-                    ?
-                </button>
-            {/if}
-        </label>
+            <span>
+                <img
+                    src={visible ? "/arrow-down.svg" : "/arrow-up.svg"}
+                    alt="V"
+                    class="w-32 h-42 pt-4 mt-4"
+                />
+            </span>
+            <span>
+                {title}
+            </span>
+            <input
+                type="checkbox"
+                {name}
+                on:change={(e) => {
+                    if (e.target.checked) {
+                        value = values;
+                    } else {
+                        value = [];
+                    }
+                }}
+                on:click={(e) => {
+                    e.stopPropagation();
+                }}
+                checked={value.length == values.length}
+                class="appearance-none h-40 w-40 rounded-10 border-3 border-lb
+                        checked:bg-[url('/check.svg')] bg-center bg-no-repeat"
+            />
+        </div>
+
         {#if visible}
-            <ul class="grid grid-flow-row gap-10">
+            <ul class="grid grid-flow-row gap-10" transition:slide>
                 {#each values as item}
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-                    <li class="flex">
+                    <li class="flex justify-between">
                         <label
-                            class="leading-40 w-full
-    text-lb font-bold text-22"
+                            class="leading-40 text-lb font-bold text-22 grow"
                             for={`${name}-${item}`}
                         >
-                            {item}
+                            {categoryFull(item)}
                         </label>
                         <input
                             type="checkbox"
@@ -371,6 +402,117 @@
                     </li>
                 {/each}
             </ul>
+        {/if}
+    {:else if name == "price"}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+            class="h-40 relative leading-40 font-bold text-32 text-lb w-full flex justify-between mt-10"
+            on:click={(e) => {
+                visible = !visible;
+            }}
+        >
+            <span>
+                <img
+                    src="/arrow-down.svg"
+                    alt="V"
+                    class="w-32 h-42 pt-4 mt-4"
+                />
+            </span>
+            <span>
+                {title}
+            </span>
+            <span class="w-40"><!--костыль--></span>
+        </div>
+
+        {#if visible}
+            <div class="flex justify-between" transition:slide>
+                <input
+                    id={name}
+                    {name}
+                    type="number"
+                    bind:value={value.from}
+                    {placeholder}
+                    class="h-50 w-130 border-lb border-3 rounded-5
+                    text-24 font-bold px-11 placeholder:text-llb text-lb appearance-none"
+                    min={values.from}
+                    max={values.to}
+                />
+                -
+                <input
+                    id={name}
+                    {name}
+                    type="number"
+                    bind:value={value.to}
+                    {placeholder}
+                    class="h-50 w-130 border-lb border-3 rounded-5
+                    text-24 font-bold px-11 placeholder:text-llb text-lb appearance-none"
+                    min={values.from}
+                    max={values.to}
+                />
+            </div>
+        {/if}
+    {:else if name == "order"}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+            class="h-40 relative leading-40 font-bold text-16 text-lb w-full flex justify-between
+            d:h-80 d:rounded-20 d:border-lb d:border-3 d:pl-27 d:pr-20 d:text-28 d:leading-80"
+            style={visible
+                ? "border-bottom-left-radius: 0;border-bottom-right-radius: 0"
+                : ""}
+            on:click={(e) => {
+                visible = !visible;
+            }}
+        >
+            <span>
+                {values[value]}
+            </span>
+            <span>
+                <img
+                    src={visible ? "/arrow-up.svg" : "/arrow-down.svg"}
+                    alt="V"
+                    class="w-24 pt-16 pl-2 d:w-32 d:pt-36"
+                />
+            </span>
+
+            {#if visible}
+                <ul
+                    class="grid grid-flow-row gap-10 top-30 -left-24 absolute z-50 bg-w
+                    w-400 py-10 d:-left-3 d:top-76 d:border-lb d:border-3 d:rounded-b-20
+                    d:w-401"
+                    transition:slide
+                >
+                    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                    {#each Object.keys(values) as item}
+                        {#if value != item}
+                            <li
+                                class="flex justify-between leading-16 py-10 px-24"
+                                on:click={() => {
+                                    value = item;
+                                }}
+                            >
+                                {values[item]}
+                            </li>
+                        {/if}
+                    {/each}
+                </ul>
+            {/if}
+        </div>
+        {#if visible}
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <div
+                class="fixed top-0 left-0 bottom-0 right-0 bg-c5 bg-opacity-50 z-40
+                d:bg-opacity-0"
+                on:click={() => {
+                    visible = false;
+                }}
+            ></div>
         {/if}
     {:else}
         <input

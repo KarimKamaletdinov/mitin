@@ -15,10 +15,10 @@ export default {
             llb: "#657f88",
             red: "#64000c",
         },
-        fontSize: makeFonts(),
-        lineHeight: makeFonts(70),
-        letterSpacing: makeFonts(),
-        borderRadius: makeFonts(),
+        fontSize: make(),
+        lineHeight: make(80),
+        letterSpacing: make(),
+        borderRadius: make(),
         variants: {
             extend: {
                 borderWidth: ['focus'],
@@ -28,26 +28,20 @@ export default {
             n: "2px 4px 4px #00000044"
         },
         extend: {
-            spacing: makeSpacing(),
-            borderWidth: makeFonts(3),
+            spacing: make(2000),
+            borderWidth: make(3),
+            outlineWidth: make(3),
         },
     },
 
     plugins: []
 }
 
-function makeSpacing() {
-    let spacing = {}
-    for (let i = 0; i < 1000; i++) {
-        spacing[i] = i / 4 + "rem"
-    }
-    return spacing
-}
 
-function makeFonts(n = 50) {
-    let fonts = {}
+function make(n = 50) {
+    let v = {}
     for (let i = 0; i <= n; i++) {
-        fonts[i] = i / 4 + "rem"
+        v[i] = i / 4 + "rem"
     }
-    return fonts
+    return v
 }

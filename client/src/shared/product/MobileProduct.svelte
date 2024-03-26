@@ -19,11 +19,15 @@
     </div>
     <figcaption class="pt-12 pl-25 pr-5 text-ellipsis">
         <h5 class="pb-16 font-bold text-14 text-b">
-            153₽
-            <span class="strikethrough text-r text-10 border-red">180₽</span>
+            {product.bulk}₽
+            <span class="strikethrough text-r text-10 border-red"
+                >{product.price}₽</span
+            >
         </h5>
         <p class="font-semibold text-13 text-b leading-[1.25]">
-            MITIN-FISHING Прикормка Карась Сербский
+            {product.brand}
+            {category(product.category)}
+            {product.name}
         </p>
     </figcaption>
 </figure>

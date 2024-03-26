@@ -7,3 +7,16 @@ export function category(a) {
             return "Кормушка"
     }
 }
+
+export function categoryFull(a) {
+    switch (a) {
+        case "ПЛ":
+            return "Прикормка летняя"
+        case "ПЗ":
+            return "Прикормка зимняя"
+        case "КФ":
+            return "Кормушка фидерная"
+        default:
+            return a
+    }
+}

@@ -30,8 +30,6 @@
     });
 </script>
 
-<DesktopHeader />
-
 <slot />
 <Dialog href={dialog} />
 
