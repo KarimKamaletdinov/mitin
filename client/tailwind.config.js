@@ -25,12 +25,14 @@ export default {
             }
         },
         boxShadow: {
-            n: "2px 4px 4px #00000044"
+            n: "2px 4px 4px #00000044",
+            none: ""
         },
         extend: {
             spacing: make(2000),
-            borderWidth: make(3),
-            outlineWidth: make(3),
+            borderWidth: make(3, 1, "px"),
+            outlineWidth: make(10),
+            zIndex: make(100, 1, "")
         },
     },
 
@@ -38,10 +40,10 @@ export default {
 }
 
 
-function make(n = 50) {
+function make(n = 50, divide = 4, point = "rem") {
     let v = {}
     for (let i = 0; i <= n; i++) {
-        v[i] = i / 4 + "rem"
+        v[i] = i / divide + point
     }
     return v
 }

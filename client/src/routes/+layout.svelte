@@ -21,9 +21,15 @@
         info = x;
     });
 
-    const dialogStore = writable(undefined);
+    const dialogStore = writable({
+        href: "",
+        data: {},
+    });
     setContext("dialog", dialogStore);
-    let dialog = "";
+    let dialog = {
+        href: "",
+        data: {},
+    };
     dialogStore.subscribe((x) => {
         console.log("AAA", x);
         dialog = x;
@@ -31,7 +37,7 @@
 </script>
 
 <slot />
-<Dialog href={dialog} />
+<Dialog href={dialog.href} data={dialog.data} />
 
 <Info
     visible={info != undefined}

@@ -11,3 +11,20 @@
 * {
     color: #023748;
 }
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: none;
+}
+
+input[type="number"]:hover,
+input[type="number"]:focus {
+    -moz-appearance: number-input;
+    appearance: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

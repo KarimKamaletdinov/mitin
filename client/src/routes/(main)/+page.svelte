@@ -37,8 +37,8 @@
 </script>
 
 <DesktopHeader bind:currentFilter />
-
 <MobileFooter />
+
 {#if fromCatalog}
     <header class="block d:hidden pt-14">
         <div class="ml-21 mr-15">

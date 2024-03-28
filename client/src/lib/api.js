@@ -8,7 +8,7 @@ export function api(name, obj) {
         functions[id] = obj[fn]
         obj[fn] = browser
             ? async (...args) => {
-                const response = await fetch(`./api/${id}`, {
+                const response = await fetch(`/api/${id}`, {
                     method: 'post',
                     body: serializeArgs(args)
                 })

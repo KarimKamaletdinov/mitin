@@ -4,6 +4,10 @@ import bot from './bot'
 
 export default api('customer', {
     async create(phone, name) {
+        const count = await sql`select count(*) as cnt from customer where phone = ${phone}`
+        if (count[0].cnt > 0) {
+            return
+        }
         await sql`insert into customer values (${phone}, 'ФЛ', ${name}, false)`
     },
     find: async (phone) => {

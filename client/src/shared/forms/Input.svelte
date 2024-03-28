@@ -1,5 +1,5 @@
 <script>
-    import { getContext } from "svelte";
+    import { getContext, onMount } from "svelte";
     import { imask } from "svelte-imask";
     import regions from "$lib/function/regions";
     import kit from "$lib/function/kit";
@@ -94,12 +94,16 @@
         visible = false;
     }
 
+    let mobile;
+    onMount(() => {
+        mobile = window.innerWidth <= 576;
+    });
     $: console.log(value);
 </script>
 
 <div
     class="grid"
-    style={horizontal
+    style={horizontal && !mobile
         ? `grid-template: ${inverted ? "'label input'" : "'input label'"} auto / ${inverted ? "auto 89.5rem" : "89.5rem auto"}; gap: 17rem`
         : `grid-template: 'label' auto 'input' auto; gap: ${name == "order" ? 0 : 3}rem;`}
 >
@@ -312,7 +316,7 @@
                                         type="radio"
                                         id={`${name}-${point.value}`}
                                         {name}
-                                        value={point.value}
+                                        value={point.label}
                                         bind:group={value.point}
                                         class="hidden peer text-26 font-bold text-lb"
                                     />
